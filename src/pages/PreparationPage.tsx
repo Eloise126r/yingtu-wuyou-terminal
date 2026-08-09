@@ -64,7 +64,7 @@ export function PreparationPage() {
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 bg-slate-50/70 px-6 py-4">
               <KnowledgeSourceDialog sources={knowledge.source} />
-              <div className="flex gap-3"><button className="secondary-action" onClick={() => navigate('/training')}>体位学习</button><button className="primary-action min-h-12 px-6" onClick={() => { markStep('preparation'); window.setTimeout(() => window.location.assign('/preparation-summary'), 0) }}>我已阅读本次准备 <ArrowRight size={20} /></button></div>
+              <div className="flex gap-3"><button className="secondary-action" onClick={() => navigate('/training')}>体位学习</button><button className="primary-action min-h-12 px-6" onClick={() => { markStep('preparation'); window.setTimeout(() => window.location.assign(`${import.meta.env.BASE_URL}preparation-summary`), 0) }}>我已阅读本次准备 <ArrowRight size={20} /></button></div>
             </div>
           </section>
         </div>

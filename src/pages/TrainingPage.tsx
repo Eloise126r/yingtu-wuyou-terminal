@@ -43,7 +43,7 @@ export function TrainingPage() {
               <p className="mt-4 text-sm font-semibold text-slate-500">体位语料参考：{active.source}。示意图用于候检教学，实际摆位以现场技师指令为准。</p>
             </div>
             <div className="grid gap-5 lg:grid-cols-[1fr_auto]">{active.supportsBreathingTrainer ? <BreathingTrainer onComplete={() => active.id === patient.trainingId && markStep('breathing')} /> : <div className="rounded-[26px] bg-slate-900 p-6 text-white"><p className="eyebrow !text-cyan-300">保持不动练习</p><h3 className="mt-2 text-2xl font-black">放松身体，保持检查部位稳定</h3><p className="mt-3 font-semibold leading-7 text-slate-300">实际检查中如有不适，请使用工作人员说明的联系方法，不要勉强坚持。</p></div>}
-              <div className="panel flex min-w-72 flex-col justify-center p-5"><button className="primary-action w-full" onClick={() => { if (active.id === patient.trainingId) markStep('position'); window.setTimeout(() => window.location.assign('/preparation-summary'), 0) }}><CheckCircle2 />我已完成本次学习</button><button className="secondary-action mt-3" onClick={() => navigate('/patient')}>返回候检</button></div></div>
+              <div className="panel flex min-w-72 flex-col justify-center p-5"><button className="primary-action w-full" onClick={() => { if (active.id === patient.trainingId) markStep('position'); window.setTimeout(() => window.location.assign(`${import.meta.env.BASE_URL}preparation-summary`), 0) }}><CheckCircle2 />我已完成本次学习</button><button className="secondary-action mt-3" onClick={() => navigate('/patient')}>返回候检</button></div></div>
           </section>
         </div>
       </main>
