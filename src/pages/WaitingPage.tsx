@@ -1,4 +1,4 @@
-import { AlertTriangle, BellRing, Clock3, LogIn, LogOut, Smartphone, Sparkles, UsersRound, X } from 'lucide-react'
+import { AlertTriangle, BellRing, Clock3, LogIn, LogOut, Sparkles, UsersRound, X } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Header } from '../components/Header'
@@ -10,7 +10,7 @@ import { getWaitingAdvice } from '../utils/waitingTime'
 
 export function WaitingPage() {
   const [leaveDialog, setLeaveDialog] = useState(false)
-  const { patient, waitingEstimate, leaveTemporarily, returnFromLeave, advanceQueue } = useApp()
+  const { patient, waitingEstimate, leaveTemporarily, returnFromLeave, examRoom } = useApp()
   const navigate = useNavigate()
   const advice = getWaitingAdvice(patient, waitingEstimate)
   return (
@@ -25,7 +25,7 @@ export function WaitingPage() {
         {patient.urgentAdjusted && <section className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-5"><div className="flex items-start gap-3"><AlertTriangle className="mt-1 shrink-0 text-amber-600" /><div><p className="font-black text-amber-950">因急诊患者需优先完成影像检查，当前候检顺序已调整。</p><p className="mt-1 font-semibold text-amber-900">原预计 {patient.previousWaitRange}，调整后 {waitingEstimate.min}–{waitingEstimate.max}分钟。</p></div></div><MiniProgramSyncBadge /></section>}
         <section className="grid flex-1 gap-5 lg:grid-cols-[1fr_1fr]">
           <div className="panel p-6"><div className="flex items-center justify-between"><div><p className="eyebrow">等待时间依据</p><h2 className="mt-1 text-2xl font-black">当前计算因素</h2></div><Sparkles className="text-blue-600" /></div><div className="mt-5 grid gap-3">{waitingEstimate.factors.map((factor,index) => <div key={factor} className="flex items-center gap-4 rounded-2xl bg-slate-50 p-4 font-bold text-slate-700"><span className="grid h-9 w-9 place-items-center rounded-xl bg-white text-blue-700 shadow-sm">{index+1}</span>{factor}</div>)}</div></div>
-          <div className="panel p-6"><p className="eyebrow">比赛演示控制</p><h2 className="mt-1 text-2xl font-black">推进候检流程</h2><div className="mt-5 grid gap-3 sm:grid-cols-2"><button className="demo-control" onClick={() => navigate('/emergency')}><AlertTriangle />模拟急诊优先</button><button className="demo-control" onClick={advanceQueue}><UsersRound />前方减少 1 人</button><button className="demo-control" onClick={() => navigate('/calling')}><BellRing />正式叫号</button><button className="demo-control" onClick={() => navigate('/ai')}><Smartphone />打开 AI 助手</button></div><p className="mt-4 rounded-xl bg-slate-50 p-3 text-sm font-semibold text-slate-500">这些按钮仅用于大赛演示，不代表患者可调整真实队列。</p></div>
+          <div className="panel p-6"><p className="eyebrow">检查室实时状态</p><h2 className="mt-1 text-2xl font-black">{examRoom.name}</h2><div className={`mt-5 flex items-center gap-4 rounded-2xl p-5 ${examRoom.status === 'NORMAL' ? 'bg-emerald-50 text-emerald-900' : 'bg-amber-50 text-amber-950'}`}><span className={`h-4 w-4 rounded-full ${examRoom.status === 'NORMAL' ? 'bg-emerald-500' : 'bg-amber-500'}`} /><div><p className="text-xl font-black">{examRoom.status === 'NORMAL' ? '正常运行' : '当前检查暂缓'}</p><p className="mt-1 font-semibold">{examRoom.status === 'NORMAL' ? '请继续留意屏幕叫号信息。' : '您的候检顺序将保留，等待时间正在调整。'}</p></div></div><div className="mt-4 flex items-start gap-3 rounded-2xl bg-sky-50 p-4 font-semibold leading-7 text-sky-900"><BellRing className="mt-1 shrink-0" />叫号、急诊顺序调整和特殊事件均由工作人员统一操作，并同步到本终端和影途无忧手机端。</div></div>
         </section>
       </main>
       {leaveDialog && <div className="modal-backdrop" role="dialog" aria-modal="true"><div className="modal-card text-left"><div className="flex items-start justify-between"><div><p className="eyebrow">暂离确认</p><h2 className="mt-2 text-2xl font-black">您确定要暂离吗？</h2></div><button className="header-icon-button" onClick={() => setLeaveDialog(false)}><X /></button></div><p className="mt-5 text-lg font-semibold leading-8 text-slate-600">您当前预计还有约 {waitingEstimate.min}–{waitingEstimate.max} 分钟。如选择暂离，请留意手机端提醒，并建议在预计检查前 10 分钟返回候检区域。</p><div className="mt-7 grid grid-cols-2 gap-3"><button className="secondary-action" onClick={() => setLeaveDialog(false)}>取消</button><button className="primary-action" onClick={() => { leaveTemporarily(); setLeaveDialog(false) }}>确认暂离</button></div></div></div>}

@@ -8,6 +8,7 @@ export type QueueStatusCode =
   | 'CALLED'
   | 'EXAMINING'
   | 'TEMP_LEAVE'
+  | 'MISSED'
   | 'URGENT_DELAY'
   | 'COMPLETED'
 
@@ -21,6 +22,56 @@ export interface QueuePatient {
   ticketNo: string
   room: string
   status: QueueStatusCode
+  examName?: string
+  prepared?: boolean
+  positionTrainingCompleted?: boolean
+  staffReviewRequired?: boolean
+  calledCount?: number
+}
+
+export type ExamRoomStatus = 'NORMAL' | 'MAINTENANCE' | 'DEVICE_FAULT' | 'PAUSED'
+export type AnnouncementType = 'CALL' | 'EMERGENCY' | 'QUIET' | 'DEVICE_FAULT' | 'DEVICE_RECOVERY' | 'DELAY' | 'CUSTOM' | 'PREPARATION'
+export type AnnouncementPriority = 'HIGH' | 'MEDIUM' | 'LOW'
+
+export interface ExamRoom {
+  id: string
+  name: string
+  modality: Modality
+  status: ExamRoomStatus
+  currentPatientId: string
+  nextPatientId: string
+  etaAdjustment: number
+  eventDelayMinutes?: number
+  recoveryEstimate?: number
+  callPaused: boolean
+  examiningStartedAt: string
+}
+
+export interface Announcement {
+  id: string
+  type: AnnouncementType
+  priority: AnnouncementPriority
+  title: string
+  screenText: string
+  ttsText: string
+  duration: number
+  requireConfirmation: boolean
+  affectsQueue: boolean
+  affectsETA: boolean
+  createdAt: string
+  createdBy: string
+  detail?: string
+  originalEta?: string
+  adjustedEta?: string
+}
+
+export interface AnnouncementHistoryItem {
+  id: string
+  time: string
+  type: AnnouncementType
+  label: string
+  operator: string
+  result: string
 }
 
 export interface PatientSession {

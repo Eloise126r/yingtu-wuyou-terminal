@@ -85,9 +85,38 @@ a:focus-visible {
 }
 
 .logo-mark {
+  border: 0;
   background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: white;
   box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+}
+
+.announcement-overlay {
+  position: fixed;
+  z-index: 45;
+  top: 96px;
+  left: 50%;
+  width: min(calc(100% - 2rem), 1180px);
+  transform: translateX(-50%);
+  border-radius: 28px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.28);
+  animation: announcement-enter 240ms ease-out;
+}
+
+.broadcast-progress {
+  width: 45%;
+  animation: broadcast-progress 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes announcement-enter {
+  from { opacity: 0; transform: translate(-50%, -16px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes broadcast-progress {
+  from { transform: translateX(-20%); }
+  to { transform: translateX(145%); }
 }
 
 .header-icon-button {
@@ -401,6 +430,7 @@ a:focus-visible {
 }
 
 @media (max-width: 720px) {
+  .announcement-overlay { top: 82px; width: calc(100% - 1rem); padding: 1rem; }
   .terminal-header {
     min-height: 78px;
     padding: 0.7rem 1rem;

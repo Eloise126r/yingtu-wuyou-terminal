@@ -1,14 +1,17 @@
 import { Accessibility, AlertTriangle, BellRing, CheckCircle2, Clock3, DoorOpen, LogOut, TimerReset } from 'lucide-react'
-import { queuePatients, queueStatusMeta } from '../data/mockData'
+import { queueStatusMeta } from '../data/mockData'
 import type { QueueStatusCode } from '../types'
+import { useApp } from '../context/AppContext'
 
 const statusStyle: Record<QueueStatusCode, string> = {
   WAITING: 'bg-slate-100 text-slate-600', READY: 'bg-amber-50 text-amber-700', NEXT: 'bg-sky-50 text-sky-700', CALLED: 'bg-blue-100 text-blue-700',
   EXAMINING: 'bg-blue-100 text-blue-700', TEMP_LEAVE: 'bg-slate-100 text-slate-600', URGENT_DELAY: 'bg-amber-50 text-amber-700', COMPLETED: 'bg-emerald-50 text-emerald-700',
+  MISSED: 'bg-amber-50 text-amber-800',
 }
-const icons = { WAITING: Clock3, READY: TimerReset, NEXT: BellRing, CALLED: BellRing, EXAMINING: DoorOpen, TEMP_LEAVE: LogOut, URGENT_DELAY: AlertTriangle, COMPLETED: CheckCircle2 }
+const icons = { WAITING: Clock3, READY: TimerReset, NEXT: BellRing, CALLED: BellRing, EXAMINING: DoorOpen, TEMP_LEAVE: LogOut, MISSED: AlertTriangle, URGENT_DELAY: AlertTriangle, COMPLETED: CheckCircle2 }
 
 export function QueueList() {
+  const { queue: queuePatients } = useApp()
   return (
     <section className="panel flex min-h-0 flex-col p-6" aria-labelledby="queue-heading">
       <div className="mb-4 flex items-center justify-between">

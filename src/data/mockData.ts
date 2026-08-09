@@ -7,6 +7,7 @@ export const queueStatusMeta: Record<QueueStatusCode, { label: string; tone: str
   CALLED: { label: '正在叫号', tone: 'blue' },
   EXAMINING: { label: '正在检查', tone: 'blue' },
   TEMP_LEAVE: { label: '暂离', tone: 'slate' },
+  MISSED: { label: '请联系工作人员', tone: 'amber' },
   URGENT_DELAY: { label: '因急诊调整', tone: 'amber' },
   COMPLETED: { label: '已完成', tone: 'emerald' },
 }
@@ -20,11 +21,11 @@ export const currentCall: QueuePatient = {
 }
 
 export const queuePatients: QueuePatient[] = [
-  currentCall,
-  { id: 'q-009', maskedName: '李*华', ticketNo: '09', room: 'CT 2 号检查室', status: 'NEXT' },
-  { id: 'q-010', maskedName: '王*明', ticketNo: '10', room: 'CT 2 号检查室', status: 'READY' },
-  { id: 'q-011', maskedName: '陈*玲', ticketNo: '11', room: 'CT 2 号检查室', status: 'TEMP_LEAVE' },
-  { id: 'q-012', maskedName: '周*平', ticketNo: '12', room: 'CT 2 号检查室', status: 'WAITING' },
+  { ...currentCall, examName: '胸部 CT 平扫', prepared: true, positionTrainingCompleted: true },
+  { id: 'q-009', maskedName: '李*华', ticketNo: '09', room: 'CT 2 号检查室', status: 'NEXT', examName: '胸部 CT 平扫', prepared: true, positionTrainingCompleted: true },
+  { id: 'q-010', maskedName: '王*明', ticketNo: '10', room: 'CT 2 号检查室', status: 'READY', examName: '腹部 CT 平扫', prepared: false, positionTrainingCompleted: true, staffReviewRequired: true },
+  { id: 'q-011', maskedName: '陈*丽', ticketNo: '11', room: 'CT 2 号检查室', status: 'WAITING', examName: '胸部 CT 平扫', prepared: true, positionTrainingCompleted: false },
+  { id: 'q-012', maskedName: '周*', ticketNo: '12', room: 'CT 2 号检查室', status: 'TEMP_LEAVE', examName: '胸部 CT 平扫', prepared: false, positionTrainingCompleted: false },
 ]
 
 export const hospitalTips = [
