@@ -1,0 +1,15 @@
+node_modules/
+.pnpm-store/
+dist/
+tmp/
+sources/
+prd_render/
+qa/screenshots-v2/
+qa/screenshots/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+prd.docx
+AGENTS.md
+.DS_Store
+Thumbs.db

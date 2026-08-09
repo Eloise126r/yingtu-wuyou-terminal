@@ -1,0 +1,11 @@
+import { BellRing, CheckCircle2, DoorOpen, Home, Volume2 } from 'lucide-react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useApp } from '../context/AppContext'
+
+export function CallingPage() {
+  const { patient, callPatient } = useApp(); const navigate = useNavigate()
+  useEffect(() => { callPatient() }, [])
+  const speak = () => { if (!('speechSynthesis' in window)) return; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(`请 ${patient.ticketNo}号，${patient.maskedName}，前往${patient.room}`); utterance.lang='zh-CN'; window.speechSynthesis.speak(utterance) }
+  return <div className="calling-screen"><div className="absolute inset-0 overflow-hidden"><div className="absolute -left-36 -top-44 h-[520px] w-[520px] rounded-full bg-white/8" /><div className="absolute -bottom-52 -right-40 h-[620px] w-[620px] rounded-full bg-cyan-300/10" /></div><main className="relative z-10 flex min-h-screen flex-col items-center justify-center p-8 text-center text-white"><span className="grid h-28 w-28 place-items-center rounded-[34px] bg-white/15"><BellRing className="animate-pulse" size={58} /></span><p className="mt-8 text-xl font-black tracking-[0.3em] text-blue-100">正在叫号</p><div className="mt-5 flex flex-wrap items-baseline justify-center gap-7"><span className="text-[clamp(5rem,12vw,12rem)] font-black leading-none">{patient.ticketNo}</span><span className="text-[clamp(3.5rem,8vw,8rem)] font-black leading-none">{patient.maskedName}</span></div><div className="mt-8 flex items-center gap-4 rounded-[28px] bg-white px-8 py-5 text-blue-700"><DoorOpen size={42} /><div className="text-left"><p className="text-lg font-black text-slate-500">请前往</p><p className="text-4xl font-black">{patient.room}</p></div></div><div className="mt-9 flex flex-wrap justify-center gap-4"><button className="calling-action" onClick={speak}><Volume2 />播放叫号语音</button><button className="calling-action" onClick={() => navigate('/patient')}><CheckCircle2 />我已看到</button><button className="calling-action" onClick={() => navigate('/')}><Home />返回公共屏</button></div><p className="mt-8 font-semibold text-blue-100">过号请联系现场工作人员，请勿自行进入其他检查室。</p></main></div>
+}
